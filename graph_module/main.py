@@ -4,9 +4,9 @@ import numpy as np
 import torch
 import graph_module.initialization
 import graph_module.space_time_graph
-import utils.get_data
-import utils.save_data
-import utils.flow
+import ike_utils.get_data
+import ike_utils.save_data
+import ike_utils.flow
 
 def get_list_of_features(config):
     """
@@ -65,19 +65,19 @@ def run_video(config, frames, orig_height, orig_width):
         # save tensors 
         out_path = os.path.join(config.get('PATHS', 'OUT_PATH'),
                                 'iter_-1')
-        utils.save_data.save_soft_segs_working_size(out_path, seed_soft_segs)
+        ike_utils.save_data.save_soft_segs_working_size(out_path, seed_soft_segs)
         # save images 
         out_path = os.path.join(config.get('PATHS', 'OUT_PATH'),
                                 'iter_-1_images')
-        utils.save_data.save_soft_segs_images(out_path, seed_soft_segs, orig_height, orig_width)
+        ike_utils.save_data.save_soft_segs_images(out_path, seed_soft_segs, orig_height, orig_width)
 
     # get initial features
     features_path = get_list_of_features(config)
     video_features = load_video_features(features_path, n_frames)
 
     # get optical flow
-    fwd_flows = utils.flow.get_video_optical_flow(config.get('PATHS','FWD_OF_PATH'), n_frames, height, width)
-    bwd_flows = utils.flow.get_video_optical_flow(config.get('PATHS','BWD_OF_PATH'), n_frames, height, width)
+    fwd_flows = ike_utils.flow.get_video_optical_flow(config.get('PATHS','FWD_OF_PATH'), n_frames, height, width)
+    bwd_flows = ike_utils.flow.get_video_optical_flow(config.get('PATHS','BWD_OF_PATH'), n_frames, height, width)
 
     # run graph module iterations 
     graph_module.space_time_graph.main(config, frames, seed_soft_segs, video_features, fwd_flows, bwd_flows,
@@ -93,7 +93,7 @@ def run(config):
     print('Run IKE - Graph Module on %s' % (frames_path))
     sys.stdout.flush()
 
-    height, width = utils.get_data.get_video_resolution(frames_path)
-    frames = utils.get_data.get_video_frames_bgr(config, frames_path)
+    height, width = ike_utils.get_data.get_video_resolution(frames_path)
+    frames = ike_utils.get_data.get_video_frames_bgr(config, frames_path)
 
     run_video(config, frames, height, width)

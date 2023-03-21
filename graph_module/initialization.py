@@ -7,7 +7,7 @@ import torch
 import cv2
 import numpy as np
 
-import utils.get_data
+import ike_utils.get_data
 
 
 def gauss_initialization_soft_segs(n_frames, height, width, sigma_percent=0.3):

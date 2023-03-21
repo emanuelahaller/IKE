@@ -5,8 +5,8 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 
-import utils.get_data
-import utils.save_data
+import ike_utils.get_data
+import ike_utils.save_data
 
 import network_module.model
 
@@ -190,7 +190,7 @@ def train(config, video_train_dataloader, learning_rate, n_epochs, to_save_epoch
 def run_video(config, orig_height, orig_width):
     
     frames_path = config.get('PATHS', 'FRAMES_PATH')
-    frames = utils.get_data.get_video_frames_rgb(config, frames_path)
+    frames = ike_utils.get_data.get_video_frames_rgb(config, frames_path)
   
     pseudo_gt_path = config.get('PATHS', 'PSEUDO_GT_PATH')
     segmentations = load_video_pseudo_gt(pseudo_gt_path, len(frames))
@@ -226,5 +226,5 @@ def run(config):
 
     print('Run IKE - Network Module on %s -- annotations from %s' % (frames_path, pseudo_gt_path))
     sys.stdout.flush()
-    height, width = utils.get_data.get_video_resolution(frames_path)
+    height, width = ike_utils.get_data.get_video_resolution(frames_path)
     run_video(config, height, width)

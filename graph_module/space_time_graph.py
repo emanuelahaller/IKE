@@ -10,7 +10,7 @@ import numpy as np
 from torch import nn
 
 import graph_module.utils
-import utils.save_data
+import ike_utils.save_data
 
 
 class SpaceTimeGraph:
@@ -381,13 +381,13 @@ def main(
                                     'iter_%d' % iteration_idx)
             to_print_soft_segs = get_to_save_soft_segs(soft_segs, working_h,
                                                        working_w)
-            utils.save_data.save_soft_segs_working_size(
+            ike_utils.save_data.save_soft_segs_working_size(
                 out_path, to_print_soft_segs)
 
             # save images 
             out_path = os.path.join(config.get('PATHS', 'OUT_PATH'),
                                 'iter_%d_images'%iteration_idx)
-            utils.save_data.save_soft_segs_images(out_path, to_print_soft_segs, orig_height, orig_width)
+            ike_utils.save_data.save_soft_segs_images(out_path, to_print_soft_segs, orig_height, orig_width)
 
 
         in_soft_segs = soft_segs
